@@ -1,7 +1,7 @@
 const CALCULAR = document.getElementById('calcular');
 const ERROR = document.getElementById('error');
-const FLU = document.getElementById('flu');
-const MAN = document.getElementById('man');
+const FLUJO = document.getElementById('flu');
+const MANTENIMIENTO = document.getElementById('man');
 CALCULAR.addEventListener('click', () => {
   const peso = document.getElementById('peso').value
   //validamos que se cargue un dato:
@@ -9,14 +9,14 @@ CALCULAR.addEventListener('click', () => {
       ERROR.style.display = 'none'
       let flujo = calcFlujo(peso);
       let mantenimiento = flujo*1.5;
-      FLU.innerHTML = flujo + ' cc/hr';
-      MAN.innerHTML = 'm+m/2 ' + mantenimiento + ' cc/hr';
-      FLU.style.display = 'block';
-      MAN.style.display = 'block';
+      FLUJO.innerHTML = flujo + ' cc/hr';
+      MANTENIMIENTO.innerHTML = 'm+m/2 ' + mantenimiento.toFixed(2) + ' cc/hr';
+      FLUJO.style.display = 'block';
+      MANTENIMIENTO.style.display = 'block';
   } else {
       ERROR.style.display = 'block';
-      FLU.style.display = 'none';
-      MAN.style.display = 'none';
+      FLUJO.style.display = 'none';
+      MANTENIMIENTO.style.display = 'none';
   }
 })
 function calcFlujo(peso){
@@ -35,10 +35,17 @@ function calcFlujo(peso){
   flujo += resto*4;
   return flujo;
 }
-function superficieCorporal(peso){
-  let flujo = ( (peso * 4) + 7) / (peso + 90);
-}
-  if (flujo>30) {
-  
+function calcFlujoBasadoEnBSA(peso) {
+  // Fórmula de Superficie Corporal
+  const bsa = ((peso * 4) + 7) / (peso + 90);
 
+  // Cálculo de Flujo
+  const flujo = 2000 * bsa;
+
+  return flujo.toFixed(2); // Redondeamos 2 decimales
 }
+
+// Ejemplo de uso
+const peso = 30; // Peso en kg
+const flujo = calcFlujoBasadoEnBSA(peso);
+console.log("Flujo recomendado: " + flujo + " ml/min");
